@@ -60,6 +60,58 @@ func main() {
 }
 ```
 
+### Go 1.25+ Usage with WaitGroup.Go
+
+Starting with Go 1.25, you can use `WaitGroup.Go` to simplify worker pool management:
+
+```go
+package main
+
+import (
+	"fmt"
+	"sync"
+)
+
+func worker(id int, jobs <-chan int, results chan<- int) {
+	for j := range jobs {
+		fmt.Printf("Worker %d processing task %d\n", id, j)
+		// Simulate work by multiplying the number by 2.
+		results <- j * 2
+		fmt.Printf("Worker %d completed task %d\n", id, j)
+	}
+}
+
+func main() {
+	const numWorkers = 3
+	const numJobs = 5
+
+	jobs := make(chan int, numJobs)
+	results := make(chan int, numJobs)
+	var wg sync.WaitGroup
+
+	// Start workers.
+       for w := 0; w < numWorkers; w++ {
+	       wg.Go(func() { worker(w, jobs, results) })
+       }
+
+	// Send jobs to the workers.
+	for j := 0; j < numJobs; j++ {
+		jobs <- j
+	}
+	close(jobs)
+
+	wg.Wait()
+	close(results)
+
+	// Collect results.
+	for result := range results {
+		fmt.Println("Result:", result)
+	}
+}
+```
+
+In this version, the `WaitGroup` counter is managed automatically, and the worker function does not need to receive a `*sync.WaitGroup` parameter.
+
 ## Best Practices
 
 - Use buffered channels to avoid blocking sends when the number of jobs is small compared to the number of workers.
