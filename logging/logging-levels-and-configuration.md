@@ -30,6 +30,7 @@ func init() {
 	if err != nil {
 		log.Fatal(err)
 	}
+	defer file.close()
 
 	InfoLogger = log.New(file, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
 	WarnLogger = log.New(file, "WARN: ", log.Ldate|log.Ltime|log.Lshortfile)
