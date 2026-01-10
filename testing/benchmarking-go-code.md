@@ -32,6 +32,31 @@ func BenchmarkSum(b *testing.B) {
 
 To run the benchmark, use the command: `go test -bench=.`
 
+### Go 1.24+ Benchmark with b.Loop Function
+
+You can achieve the same functionality with the `b.Loop` method:
+
+```go
+package main
+
+import (
+	"testing"
+)
+
+// Function to benchmark.
+func Sum(x, y int) int {
+	return x + y
+}
+
+func BenchmarkSum(b *testing.B) {
+	for b.Loop() {
+		_ = Sum(1, 2)
+	}
+}
+```
+
+This method prevents unwanted compiler optimizations and automatically handles setup and cleanup for you.
+
 ## Benchmarking with Setup and Teardown
 
 Often you'll want to include setup or teardown logic with your benchmarks:
