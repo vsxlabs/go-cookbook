@@ -1,7 +1,7 @@
 ---
 title: 'Using Build Tags in Go'
 description: 'Learn how to use build tags in Go to control build processes for different environments and configurations'
-date: '2027-01-27'
+date: '2026-01-27'
 category: 'Tools'
 ---
 

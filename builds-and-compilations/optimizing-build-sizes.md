@@ -1,7 +1,7 @@
 ---
 title: 'Optimizing Build Sizes in Go'
 description: 'Techniques and best practices for reducing build sizes in Go applications.'
-date: '2025-03-24'
+date: '2026-01-27'
 category: 'Tools'
 ---
 
@@ -46,7 +46,7 @@ Go allows you to include or exclude files with build constraints, reducing unnec
 ### Example: Feature-Specific Code
 
 ```go
-// +build imageprocessing
+//go:build imageprocessing
 
 package main
 
@@ -62,7 +62,7 @@ func processImage(img *image.RGBA) {
 ```
 
 ```go
-// +build !imageprocessing
+//go:build !imageprocessing
 
 package main
 
@@ -98,7 +98,9 @@ ls -lh microservice
 
 - **Static Analysis and Dead Code Elimination**: Use `go tool compile` and `go tool link` to analyze and eliminate dead code. Regularly check your dependencies for unused packages.
 - **Modular Programming**: Break down applications into packages and only import what's necessary.
-- **Configuration Management**: Use build tags for optional features/functions to minimize what's included in production builds.
+- **Configuration Management**: Use `//go:build` directives for optional features/functions to minimize what's included in production builds.
+- **Dependency Auditing**: Regularly run `go mod tidy` and `go mod vendor` to clean up unused dependencies.
+- **Use Go's Built-in Tools**: Leverage `go tool nm -size <binary>` to analyze what's taking up space in your binary.
 
 ## Common Pitfalls
 
@@ -111,5 +113,27 @@ ls -lh microservice
 - **Consider Golang Build Tools**: Tools like `golangci-lint` can highlight areas for optimization.
 - **Analyze Go Binary Size**: Use the `go tool nm` and `go tool objdump` for insights into generated binaries.
 - **Profile Binary Sizes**: Regularly use `go build -v` and `go list -json` to analyze module dependencies.
+- **CGO Considerations**: Avoid CGO when possible (`CGO_ENABLED=0`) as it can increase binary size and reduce portability.
+- **Trim Paths**: Use `-trimpath` flag to remove absolute file paths from the binary, reducing size and improving reproducibility:
+
+```bash
+# Build with trimmed paths for smaller, reproducible binaries
+go build -trimpath -ldflags "-w -s" microservice.go
+```
+
+## Analyzing Binary Size
+
+Use Go's built-in tools to understand what's contributing to your binary size:
+
+```bash
+# Analyze symbol sizes in the binary
+go tool nm -size myapp | sort -rn | head -20
+
+# Get detailed build information
+go version -m myapp
+
+# See all dependencies and their sizes
+go list -m all
+```
 
 By following these practices and techniques, you can efficiently optimize the size of your Go builds, leading to more streamlined and efficient applications.
