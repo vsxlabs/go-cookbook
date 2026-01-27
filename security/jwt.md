@@ -17,6 +17,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"github.com/go-jose/go-jose/v4"
@@ -24,8 +25,12 @@ import (
 )
 
 func main() {
-	// Define a shared key.
-	key := []byte("my-secret-key")
+	// Load the secret key from environment variable.
+	secretKey := os.Getenv("JWT_SECRET_KEY")
+	if secretKey == "" {
+		log.Fatal("JWT_SECRET_KEY environment variable is required")
+	}
+	key := []byte(secretKey)
 
 	// Create a signer.
 	signer, err := jose.NewSigner(jose.SigningKey{Algorithm: jose.HS256, Key: key}, nil)
@@ -61,6 +66,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/go-jose/go-jose/v4"
 	"github.com/go-jose/go-jose/v4/jwt"
@@ -70,8 +76,12 @@ func main() {
 	// Simulate a JWT string received from somewhere.
 	rawJWT := "your.jwt.string.here"
 
-	// The same shared key used for signing.
-	key := []byte("my-secret-key")
+	// Load the secret key from environment variable.
+	secretKey := os.Getenv("JWT_SECRET_KEY")
+	if secretKey == "" {
+		log.Fatal("JWT_SECRET_KEY environment variable is required")
+	}
+	key := []byte(secretKey)
 
 	// Parse the JWT.
 	token, err := jwt.ParseSigned(rawJWT, []jose.SignatureAlgorithm{jose.HS256})
@@ -94,17 +104,18 @@ func main() {
 
 ## Best Practices
 
-- Use strong and unique secret keys for signing tokens, update periodically to ensure security.
+- Use strong and unique secret keys for signing tokens (at least 256 bits for HS256), and update periodically to ensure security.
 - Store tokens securely, preferably in secure cookies with flags like `HttpOnly` and `Secure`.
 - Set appropriate expiry times for your JWTs. Shorter validity periods reduce the impact of a leaked token.
 - Always validate the token claims, including audience and issuer, to ensure they conform to expected values.
+- Fail fast during initialization if required environment variables are missing rather than using default values.
 
 ## Common Pitfalls
 
 - Failing to validate tokens properly can open up security vulnerabilities.
-- Hardcoding secret keys directly in the code can lead to security issues if your repositories are compromised; consider using environment variables or a secrets management service.
 - Not setting a short expiry for each token can increase the risk window in case of a token leak.
 - Overlooking the use of HTTPS when transmitting JWTs could lead to token exposure.
+- Using weak or predictable secret keys that can be brute-forced.
 
 ## Performance Tips
 
