@@ -20,18 +20,19 @@ import (
 	"fmt"
 	"os"
 	"runtime/pprof"
+	"log"
 )
 
 func main() {
 	f, err := os.Create("cpu.prof")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer f.Close()
 
 	// Start CPU profiling.
 	if err := pprof.StartCPUProfile(f); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer pprof.StopCPUProfile()
 
@@ -87,6 +88,7 @@ import (
 	"os"
 	"runtime/pprof"
 	"time"
+	"log"
 )
 
 func main() {
@@ -98,7 +100,7 @@ func main() {
 
 	f, err := os.Create("goroutine.prof")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer f.Close()
 
