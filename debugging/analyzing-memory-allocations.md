@@ -22,7 +22,9 @@ import (
 
 func main() {
 	go func() {
-		log.Println(http.ListenAndServe("localhost:6060", nil))
+		if err := http.ListenAndServe("localhost:6060", nil); err != nil {
+			log.Fatal(err)
+		}
 	}()
 
 	// Your application logic here.

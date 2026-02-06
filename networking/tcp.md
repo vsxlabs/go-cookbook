@@ -89,7 +89,11 @@ func main() {
 	reader := bufio.NewReader(os.Stdin)
 
 	for {
-		message, _ := reader.ReadString('\n')
+		message, err := reader.ReadString('\n')
+		if err != nil {
+			fmt.Println("Error reading input:", err)
+			break
+		}
 		_, err := conn.Write([]byte(message))
 		if err != nil {
 			fmt.Println("Error sending message:", err)

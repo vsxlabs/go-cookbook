@@ -18,6 +18,7 @@ import (
 	"archive/tar"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"path/filepath"
 )
@@ -83,14 +84,20 @@ func extractTar(tarPath, destDir string) error {
 		}
 
 		outPath := filepath.Join(destDir, hdr.Name)
-		os.MkdirAll(filepath.Dir(outPath), 0755)
+		if err := os.MkdirAll(filepath.Dir(outPath), 0755); err != nil {
+			return err
+		}
 
 		outFile, err := os.Create(outPath)
 		if err != nil {
 			return err
 		}
-		io.Copy(outFile, tarReader)
-		outFile.Close()
+		if _, err := io.Copy(outFile, tarReader); err != nil {
+			return err
+		}
+		if err := outFile.Close(); err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -99,7 +106,9 @@ func main() {
 	// Create sample files.
 	testFiles := []string{"notes.txt", "config.txt"}
 	for i, name := range testFiles {
-		os.WriteFile(name, []byte(fmt.Sprintf("Sample data %d", i+1)), 0644)
+		if err := os.WriteFile(name, []byte(fmt.Sprintf("Sample data %d", i+1)), 0644); err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	// Create and extract TAR.
@@ -120,6 +129,7 @@ import (
 	"archive/zip"
 	"fmt"
 	"io"
+	"log"
 	"os"
 	"path/filepath"
 )
@@ -166,7 +176,9 @@ func unpackZip(zipPath, targetDir string) error {
 	}
 	defer zipReader.Close()
 
-	os.MkdirAll(targetDir, 0755)
+	if err := os.MkdirAll(targetDir, 0755); err != nil {
+		return err
+	}
 
 	for _, entry := range zipReader.File {
 		entryReader, err := entry.Open()
@@ -181,9 +193,15 @@ func unpackZip(zipPath, targetDir string) error {
 			return err
 		}
 
-		io.Copy(outputFile, entryReader)
-		outputFile.Close()
-		entryReader.Close()
+		if _, err := io.Copy(outputFile, entryReader); err != nil {
+			return err
+		}
+		if err := outputFile.Close(); err != nil {
+			return err
+		}
+		if err := entryReader.Close(); err != nil {
+			return err
+		}
 	}
 	return nil
 }
@@ -193,7 +211,9 @@ func main() {
 	documents := []string{"report.txt", "summary.txt"}
 	for i, doc := range documents {
 		content := fmt.Sprintf("Report section %d\nAnalysis results here", i+1)
-		os.WriteFile(doc, []byte(content), 0644)
+		if err := os.WriteFile(doc, []byte(content), 0644); err != nil {
+			log.Fatal(err)
+		}
 	}
 
 	// Package and unpack.

@@ -16,6 +16,7 @@ package main
 
 import (
 	"html/template"
+	"log"
 	"net/http"
 )
 
@@ -27,7 +28,9 @@ func main() {
 		tmpl.Execute(w, data)
 	})
 
-	http.ListenAndServe(":8080", nil)
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal(err)
+	}
 }
 ```
 Using `html/template` ensures that any user input is safely escaped when rendering in HTML.

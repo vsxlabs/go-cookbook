@@ -101,7 +101,10 @@ func main() {
 		handleRequest(ctx, reqLogger, w, r)
 	})
 
-	http.ListenAndServe(":8080", nil)
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		slog.Error(err)
+		os.Exit(1)
+	}
 }
 
 func handleRequest(ctx context.Context, logger *slog.Logger, w http.ResponseWriter, r *http.Request) {

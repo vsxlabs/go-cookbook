@@ -28,7 +28,7 @@ func main() {
 	name, err := reader.ReadString('\n')
 	if err != nil {
 		fmt.Println("Error reading input:", err)
-		return
+		os.Exit(1)
 	}
 	name = strings.TrimSpace(name)
 	fmt.Printf("Hello, %s", name)
@@ -78,7 +78,7 @@ func main() {
 	age, err := strconv.Atoi(strings.TrimSpace(input))
 	if err != nil {
 		fmt.Println("Invalid input, please enter a number")
-		return
+		os.Exit(1)
 	}
 	
 	fmt.Printf("Your age is %d.\n", age)
