@@ -16,19 +16,20 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 )
 
 func main() {
 	f, err := os.Create("example.txt")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer f.Close()
 
 	_, err = f.WriteString("File content")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	fmt.Println("File written successfully")
@@ -94,12 +95,11 @@ This example guarantees that `cleanup` is always called, even if `process` panic
 
 ## Common Pitfalls
 
-- Be aware of potential performance issues: Calling `defer` incurs a small overhead in Go. In performance-critical inner loops, minimize its use.
 - Deferred functions run after the surrounding function returns, which means if the function panics, deferred calls still execute.
 - Capturing loop variables in deferred functions can lead to unexpected results; use function literals to capture variables correctly.
 
 ## Performance Tips
 
-- Avoid using `defer` in tight loops to reduce performance overhead.
-- For high-performance scenarios, consider alternatives to defer when resources can be explicitly managed without risking forgetfulness or leaks.
+- `defer` has minimal overhead in modern Go (1.14+), but in extremely tight loops with millions of iterations, consider explicit cleanup for maximum performance.
+- For high-performance scenarios where profiling shows defer as a bottleneck, consider alternatives when resources can be explicitly managed without risking forgetfulness or leaks.
 - Understand the order of execution for multiple deferred calls to avoid redundant operations, ensuring cleanup tasks complement each other efficiently.

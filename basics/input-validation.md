@@ -21,15 +21,8 @@ import (
 
 func main() {
 	email := "example@example.com"
-	emailRegex := `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`
-
-	match, err := regexp.MatchString(emailRegex, email)
-	if err != nil {
-		fmt.Println("Error compiling regex:", err)
-		return
-	}
-
-	if match {
+	emailRegex := regexp.MustCompile(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`)
+	if emailRegex.MatchString(email) {
 		fmt.Println("Email address is valid.")
 	} else {
 		fmt.Println("Email address is invalid.")
@@ -47,6 +40,7 @@ package main
 import (
 	"fmt"
 	"github.com/go-playground/validator/v10"
+	"log"
 )
 
 type User struct {
@@ -67,11 +61,11 @@ func main() {
 	err := v.Struct(user)
 	if err != nil {
 		if _, ok := err.(*validator.InvalidValidationError); ok {
-			fmt.Println(err)
-			return
+			log.Fatal(err)
 		}
 		for _, err := range err.(validator.ValidationErrors) {
 			fmt.Println("Validation Error:", err)
+			log.Fatal(err)
 		}
 	} else {
 		fmt.Println("User input is valid!")

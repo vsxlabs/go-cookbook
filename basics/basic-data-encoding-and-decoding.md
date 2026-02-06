@@ -36,13 +36,14 @@ package main
 import (
 	"encoding/base64"
 	"fmt"
+	"log"
 )
 
 func main() {
 	encodedData := "VGV4dCB0byBlbmNvZGU="
 	decodedData, err := base64.StdEncoding.DecodeString(encodedData)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Println("Decoded:", string(decodedData))
 }
@@ -63,13 +64,13 @@ import (
 )
 
 func main() {
-	person := map[string]interface{}{
+	person := map[string]any{
 		"name": "Jack",
 		"age":  25,
 	}
 	jsonData, err := json.Marshal(person)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Println("JSON Encoded:", string(jsonData))
 }
@@ -83,14 +84,15 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 )
 
 func main() {
 	jsonData := `{"name":"Jack","age":25}`
-	var person map[string]interface{}
+	var person map[string]any
 	err := json.Unmarshal([]byte(jsonData), &person)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("JSON Decoded: %+v\n", person)
 }
@@ -125,13 +127,14 @@ package main
 import (
 	"encoding/hex"
 	"fmt"
+	"log"
 )
 
 func main() {
 	encodedData := "5465787420746f20656e636f6465"
 	decodedData, err := hex.DecodeString(encodedData)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Println("Hex Decoded:", string(decodedData))
 }

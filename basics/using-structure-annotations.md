@@ -17,6 +17,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 )
 
 type Person struct {
@@ -29,13 +30,13 @@ func main() {
 	data := `{"name":"Alice","age":25}`
 	var p Person
 	if err := json.Unmarshal([]byte(data), &p); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("Person: %+v\n", p)
 
 	jsonData, err := json.Marshal(p)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Println(string(jsonData))
 }

@@ -38,14 +38,14 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 )
 
 func main() {
 	err := os.Setenv("RUNTIME_ENV", "production")
 	if err != nil {
-		fmt.Println("Error setting environment variable:", err)
-		return
+		log.Fatal(err)
 	}
 
 	appEnv := os.Getenv("RUNTIME_ENV")
