@@ -45,7 +45,6 @@ Go allows you to name the return values, which can be handy for documentation pu
 package main
 
 import (
-	"errors"
 	"fmt"
 )
 

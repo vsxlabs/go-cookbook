@@ -118,7 +118,6 @@ import (
 	"encoding/xml"
 	"fmt"
 	"os"
-	"time"
 	"log"
 )
 

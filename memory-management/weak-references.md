@@ -77,7 +77,8 @@ func NewWeakCache[K comparable, V any]() *WeakCache[K, V] {
 func (c *WeakCache[K, V]) Set(key K, value *V) {
 	c.mu.Lock()
 	defer c.mu.Unlock()
-	c.cache[key] = weak.Make(value)
+	weakPtr := weak.Make(value)
+	c.cache[key] = &weakPtr
 }
 
 func (c *WeakCache[K, V]) Get(key K) *V {

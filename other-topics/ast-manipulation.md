@@ -105,7 +105,6 @@ Insert new nodes to extend an AST.
 package main
 
 import (
-	"fmt"
 	"go/ast"
 	"go/parser"
 	"go/token"

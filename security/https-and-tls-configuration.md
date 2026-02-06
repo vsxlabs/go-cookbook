@@ -67,13 +67,11 @@ Instead, properly configure certificate verification:
 package main
 
 import (
-	"crypto/tls"
-	"crypto/x509"
+	"crypto/tls"	
 	"fmt"
 	"io"
 	"log"
 	"net/http"
-	"os"
 	"time"
 )
 

@@ -157,8 +157,7 @@ package main
 
 import (
 	"fmt"
-	"iter"
-	"slices"
+	"iter"	
 )
 
 // Create an iterator that yields index-value pairs.
