@@ -18,6 +18,7 @@ import (
 	_ "embed"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 )
 
@@ -28,7 +29,7 @@ func main() {
 	// Parse the embedded template.
 	tmpl, err := template.New("dashboard").Parse(dashboardTemplate)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	http.HandleFunc("/dashboard", func(w http.ResponseWriter, r *http.Request) {
@@ -51,7 +52,9 @@ func main() {
 	})
 
 	fmt.Println("Server starting on :8080...")
-	http.ListenAndServe(":8080", nil)
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal(err)
+	}
 }
 ```
 
@@ -67,6 +70,7 @@ import (
 	"fmt"
 	"html/template"
 	"io/fs"
+	"log"
 	"net/http"
 	"path"
 )
@@ -84,14 +88,14 @@ func init() {
 	// Load all templates from the embedded filesystem.
 	templateFiles, err := fs.Glob(content, "templates/*.html")
 	if err != nil {
-		panic(fmt.Sprintf("Failed to load templates: %v.", err))
+		log.Fatalf("Failed to load templates: %v", err)
 	}
 
 	for _, tmpl := range templateFiles {
 		name := path.Base(tmpl)
 		templates[name], err = template.ParseFS(content, tmpl)
 		if err != nil {
-			panic(fmt.Sprintf("Failed to parse template %s: %v.", name, err))
+			log.Fatalf("Failed to parse template %s: %v", name, err)
 		}
 	}
 }
@@ -100,7 +104,7 @@ func main() {
 	// Serve static files from the embedded filesystem.
 	staticFS, err := fs.Sub(content, "static")
 	if err != nil {
-		panic(fmt.Sprintf("Failed to create sub-filesystem: %v.", err))
+		log.Fatal(err)
 	}
 	
 	http.Handle("/static/", http.StripPrefix("/static/", http.FileServer(http.FS(staticFS))))
@@ -139,7 +143,9 @@ func main() {
 	})
 
 	fmt.Println("Server starting on :8080...")
-	http.ListenAndServe(":8080", nil)
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal(err)
+	}
 }
 ```
 
