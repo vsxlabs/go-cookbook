@@ -21,6 +21,7 @@ import (
 	"encoding/hex"
 	"fmt"
 	"io"
+	"log"	
 )
 
 func encrypt(plaintext string, key []byte) (string, error) {
@@ -67,13 +68,13 @@ func main() {
 
 	encrypted, err := encrypt(plaintext, key)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("Encrypted: %s\n", encrypted)
 
 	decrypted, err := decrypt(encrypted, key)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("Decrypted: %s\n", decrypted)
 }

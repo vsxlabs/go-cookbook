@@ -25,7 +25,7 @@ func main() {
 	// Generate hashed password.
 	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	fmt.Println("Hashed Password:", string(hashedPassword))

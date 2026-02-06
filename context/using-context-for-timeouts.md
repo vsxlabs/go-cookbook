@@ -49,7 +49,8 @@ import (
 	"context"
 	"fmt"
 	"io"
-	"net/http"
+	"log"
+	"net/http"	
 	"time"
 )
 
@@ -59,7 +60,7 @@ func main() {
 
 	req, err := http.NewRequestWithContext(ctx, http.MethodGet, "https://httpbin.org/delay/5", nil)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	client := &http.Client{}

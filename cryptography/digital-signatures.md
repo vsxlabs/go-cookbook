@@ -20,13 +20,14 @@ import (
 	"crypto/rsa"
 	"crypto/sha256"
 	"fmt"
+	"log"	
 )
 
 func main() {
 	// Generate RSA keys.
 	privateKey, err := rsa.GenerateKey(rand.Reader, 2048)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	publicKey := &privateKey.PublicKey
 
@@ -39,7 +40,7 @@ func main() {
 	// Sign the hashed message.
 	signature, err := rsa.SignPKCS1v15(rand.Reader, privateKey, crypto.SHA256, hashed[:])
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("Signature: %x\n", signature)
 
@@ -66,13 +67,14 @@ import (
 	"crypto/rand"
 	"crypto/sha256"
 	"fmt"
+	"log"	
 )
 
 func main() {
 	// Generate ECDSA keys.
 	privateKey, err := ecdsa.GenerateKey(elliptic.P256(), rand.Reader)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	publicKey := &privateKey.PublicKey
 
@@ -85,7 +87,7 @@ func main() {
 	// Sign the hashed message.
 	r, s, err := ecdsa.Sign(rand.Reader, privateKey, hashed[:])
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	// Verify the signature.

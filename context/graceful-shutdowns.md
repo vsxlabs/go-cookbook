@@ -17,6 +17,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -35,7 +36,7 @@ func main() {
 	go func() {
 		fmt.Println("Starting data processing server...")
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			fmt.Printf("Server error: %v\n", err)
+			log.Fatal(err)
 		}
 	}()
 
@@ -49,7 +50,7 @@ func main() {
 
 	// Shutdown the server gracefully.
 	if err := server.Shutdown(ctx); err != nil {
-		fmt.Printf("Server shutdown failed:%+v", err)
+		log.Fatal(err)
 	}
 	fmt.Println("Server gracefully stopped")
 }
@@ -65,6 +66,7 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"os/signal"
@@ -82,7 +84,7 @@ func main() {
 	go func() {
 		fmt.Println("Server listening on :8080")
 		if err := server.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			fmt.Printf("Server error: %v\n", err)
+			log.Fatal(err)
 		}
 	}()
 
@@ -93,7 +95,7 @@ func main() {
 	defer cancel()
 
 	if err := server.Shutdown(shutdownCtx); err != nil {
-		fmt.Printf("Server shutdown failed:%+v", err)
+		log.Fatal(err)
 	}
 	fmt.Println("Server gracefully stopped")
 }

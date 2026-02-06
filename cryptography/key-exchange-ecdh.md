@@ -18,6 +18,7 @@ import (
 	"crypto/ecdh"
 	"crypto/rand"
 	"fmt"
+	"log"	
 )
 
 func main() {
@@ -27,27 +28,27 @@ func main() {
 	// Alice generates her key pair.
 	alicePrivate, err := curve.GenerateKey(rand.Reader)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	alicePublic := alicePrivate.PublicKey()
 	
 	// Bob generates his key pair.
 	bobPrivate, err := curve.GenerateKey(rand.Reader)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	bobPublic := bobPrivate.PublicKey()
 	
 	// Alice computes the shared secret using Bob's public key.
 	aliceSecret, err := alicePrivate.ECDH(bobPublic)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	
 	// Bob computes the shared secret using Alice's public key.
 	bobSecret, err := bobPrivate.ECDH(alicePublic)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	
 	// The shared secrets should be identical.

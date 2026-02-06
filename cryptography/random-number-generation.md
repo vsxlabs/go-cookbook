@@ -41,13 +41,14 @@ package main
 import (
 	"crypto/rand"
 	"fmt"
-	"math/big"
+	"log"
+	"math/big"	
 )
 
 func main() {
 	n, err := rand.Int(rand.Reader, big.NewInt(73)) // Random integer between 0 and 72 (inclusive).
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Println(n)
 }
@@ -68,7 +69,7 @@ import (
 func main() {
 	bytes := make([]byte, 32) // Generate 32 random bytes.
 	if _, err := rand.Read(bytes); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("Random Bytes: %x\n", bytes)
 }
