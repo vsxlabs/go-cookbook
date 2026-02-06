@@ -19,7 +19,7 @@ import (
 	"reflect"
 )
 
-func Inspect(v interface{}) {
+func Inspect(v any) {
 	val := reflect.ValueOf(v)
 	typ := reflect.TypeOf(v)
 	fmt.Printf("Type: %s\n", typ)
@@ -52,7 +52,7 @@ type User struct {
 	IsAdmin bool   `json:"admin"`
 }
 
-func GenerateJSONSchema(i interface{}) {
+func GenerateJSONSchema(i any) {
 	val := reflect.ValueOf(i)
 	typ := val.Type()
 	fields := typ.NumField()
@@ -87,7 +87,7 @@ func (g Greeter) SayHello(name string) {
 	fmt.Printf("Hello, %s!\n", name)
 }
 
-func InvokeMethod(i interface{}, methodName string, args ...interface{}) {
+func InvokeMethod(i any, methodName string, args ...any) {
 	val := reflect.ValueOf(i)
 	method := val.MethodByName(methodName)
 	if !method.IsValid() {
