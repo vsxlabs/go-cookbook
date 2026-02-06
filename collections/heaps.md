@@ -112,7 +112,7 @@ func main() {
 
 - Not calling `heap.Init()` before using other heap operations can lead to incorrect results.
 - Incorrect implementation of `Less` method can result in an improperly sorted heap.
-- Forgetting to manage the return type in `Pop()` when casting `interface{}` back to the original type.
+- Forgetting to manage the return type in `Pop()` when casting `any` back to the original type.
 
 ## Performance Tips
 
