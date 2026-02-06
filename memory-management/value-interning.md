@@ -159,7 +159,7 @@ type LogEntry struct {
 	Timestamp int64
 }
 
-func processLogEntries(rawLogs []map[string]interface{}) []LogEntry {
+func processLogEntries(rawLogs []map[string]any) []LogEntry {
 	var entries []LogEntry
 	
 	for _, raw := range rawLogs {
@@ -177,7 +177,7 @@ func processLogEntries(rawLogs []map[string]interface{}) []LogEntry {
 
 func main() {
 	// Simulate log data with repeated level and service values.
-	rawLogs := []map[string]interface{}{
+	rawLogs := []map[string]any{
 		{"level": "ERROR", "service": "user-service", "message": "Login failed", "timestamp": int64(1640995200)},
 		{"level": "INFO", "service": "user-service", "message": "User created", "timestamp": int64(1640995201)},
 		{"level": "ERROR", "service": "payment-service", "message": "Payment failed", "timestamp": int64(1640995202)},

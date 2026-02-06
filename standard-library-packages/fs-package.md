@@ -18,13 +18,14 @@ import (
 	"fmt"
 	"io/fs"
 	"os"
+	"log"
 )
 
 func main() {
 	var myFS fs.FS = os.DirFS(".")
 	data, err := fs.ReadFile(myFS, "example.txt")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Println(string(data))
 }
@@ -41,6 +42,7 @@ import (
 	"fmt"
 	"io/fs"
 	"os"
+	"log"
 )
 
 func main() {
@@ -48,7 +50,7 @@ func main() {
 
 	entries, err := fs.ReadDir(myFS, ".")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	for _, entry := range entries {
@@ -73,18 +75,19 @@ import (
 	"fmt"
 	"io/fs"
 	"os"
+	"log"
 )
 
 func main() {
 	rootFS := os.DirFS(".")
 	subFS, err := fs.Sub(rootFS, "subdir")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	entries, err := fs.ReadDir(subFS, ".")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	for _, entry := range entries {

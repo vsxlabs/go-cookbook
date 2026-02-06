@@ -19,6 +19,7 @@ import (
 	"go/ast"
 	"go/parser"
 	"go/token"
+	"log"
 )
 
 func main() {
@@ -36,7 +37,7 @@ func main() {
 	// Parse the source code and generate an AST.
 	node, err := parser.ParseFile(fset, "", src, parser.AllErrors)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	// Traverse the AST.
@@ -57,11 +58,12 @@ Modify AST nodes to transform code. Here's an example that changes function name
 ```go
 package main
 
-import (	
+import (
 	"go/ast"
 	"go/parser"
-	"go/token"
 	"go/printer"
+	"go/token"
+	"log"
 	"os"
 )
 
@@ -77,7 +79,7 @@ func main() {
 	fset := token.NewFileSet()
 	node, err := parser.ParseFile(fset, "", src, parser.AllErrors)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	// Modify function names.
@@ -109,6 +111,7 @@ import (
 	"go/token"
 	"go/printer"
 	"os"
+	"log"
 )
 
 func main() {
@@ -123,7 +126,7 @@ func main() {
 	fset := token.NewFileSet()
 	node, err := parser.ParseFile(fset, "", src, parser.AllErrors)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	// Create a new statement to insert.

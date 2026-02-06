@@ -17,12 +17,13 @@ package main
 import (
 	"fmt"
 	"os"
+	"log"
 )
 
 func main() {
 	files, err := os.ReadDir(".") // List files in the current directory
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	for _, file := range files {
@@ -41,18 +42,19 @@ package main
 import (
 	"fmt"
 	"os"
+	"log"
 )
 
 func main() {
 	dirEntries, err := os.ReadDir(".")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	for _, entry := range dirEntries {
 		info, err := entry.Info()
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 		fmt.Printf("Name: %s, Size: %d bytes, IsDir: %t\n", info.Name(), info.Size(), info.IsDir())
 	}
@@ -70,6 +72,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"log"
 )
 
 func main() {
@@ -83,7 +86,7 @@ func main() {
 		return nil
 	})
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }
 ```

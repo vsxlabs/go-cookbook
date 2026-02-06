@@ -17,6 +17,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 )
 
 type User struct {
@@ -31,7 +32,7 @@ func main() {
 	// Serialize struct to JSON.
 	userJSON, err := json.Marshal(u)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Println(string(userJSON))
 }
@@ -47,6 +48,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 )
 
 type User struct {
@@ -62,7 +64,7 @@ func main() {
 	// Deserialize JSON string to struct.
 	err := json.Unmarshal([]byte(data), &u)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("Name: %s, Email: %s, Age: %d\n", u.Name, u.Email, u.Age)
 }
@@ -78,15 +80,16 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 )
 
 func main() {
 	data := `{"name": "Charlie", "email": "charlie@example.com", "age": 29, "extra": "value"}`
 
-	var result map[string]interface{}
+	var result map[string]any
 	err := json.Unmarshal([]byte(data), &result)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	for key, value := range result {
@@ -124,6 +127,7 @@ package main
 import (
 	"fmt"
 	"encoding/json/v2"
+	"log"
 )
 
 type User struct {
@@ -151,7 +155,7 @@ func main() {
 		json.Deterministic(true),            // consistent field ordering
 	)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("Configured output: %s\n", data)
 
@@ -162,7 +166,7 @@ func main() {
 		json.MatchCaseInsensitiveNames(true),
 	)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("Parsed from mixed case: %+v\n", result)
 }
@@ -180,6 +184,7 @@ import (
 	"time"
 	"encoding/json/v2"
 	"encoding/json/v2/jsontext"
+	"log"
 )
 
 type CustomDate time.Time
@@ -222,7 +227,7 @@ func main() {
 	// Serialize with custom date formatting
 	data, err := json.Marshal(user)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("Serialized: %s\n", data)
 
@@ -230,7 +235,7 @@ func main() {
 	var parsed User
 	err = json.Unmarshal(data, &parsed)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("Parsed user: %+v\n", parsed)
 	fmt.Printf("Birth date as time: %v\n", time.Time(parsed.BirthDate))

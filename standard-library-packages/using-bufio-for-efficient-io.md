@@ -18,12 +18,13 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"log"
 )
 
 func main() {
 	file, err := os.Open("largefile.txt")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer file.Close()
 
@@ -49,25 +50,26 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"log"
 )
 
 func main() {
 	file, err := os.Create("output.txt")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer file.Close()
 
 	writer := bufio.NewWriter(file)
 	_, err = writer.WriteString("Buffered writing with bufio.Writer\n")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	// Flush buffered data to the file.
 	err = writer.Flush()
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Println("Successfully written to file.")
 }

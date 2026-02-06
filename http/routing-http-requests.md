@@ -16,7 +16,8 @@ package main
 
 import (
 	"fmt"
-	"net/http"
+	"log"
+	"net/http"	
 )
 
 func main() {
@@ -40,7 +41,9 @@ func main() {
 		fmt.Fprintf(w, "File path: %s\n", filePath)
 	})
 	
-	http.ListenAndServe(":8080", mux)
+	if err := http.ListenAndServe(":8080", mux); err != nil {
+		log.Fatal(err)
+	}
 }
 ```
 
@@ -54,6 +57,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -79,7 +83,9 @@ func main() {
 	// File serving with wildcard.
 	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("./static/"))))
 
-	http.ListenAndServe(":8080", mux)
+	if err := http.ListenAndServe(":8080", mux); err != nil {
+		log.Fatal(err)
+	}
 }
 
 func listUsers(w http.ResponseWriter, r *http.Request) {
@@ -131,6 +137,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"github.com/gorilla/mux"
 )
@@ -144,7 +151,9 @@ func main() {
 	})
 
 	// Start the server.
-	http.ListenAndServe(":8080", r)
+	if err := http.ListenAndServe(":8080", r); err != nil {
+		log.Fatal(err)
+	}
 }
 ```
 
@@ -172,7 +181,9 @@ func main() {
 	})
 
 	// Start the server.
-	http.ListenAndServe(":8080", r)
+	if err := http.ListenAndServe(":8080", r); err != nil {
+		fmt.Println("Server failed:", err)
+	}
 }
 ```
 
@@ -208,7 +219,10 @@ func main() {
 	})
 
 	// Start the server.
-	http.ListenAndServe(":8080", r)
+	if err := http.ListenAndServe(":8080", r); err != nil {
+		fmt.Println("Server failed:", err)
+	}
+}
 }
 ```
 
@@ -235,7 +249,9 @@ func main() {
 	})
 
 	// Start the server.
-	http.ListenAndServe(":8080", r)
+	if err := http.ListenAndServe(":8080", r); err != nil {
+		fmt.Println("Server failed:", err)
+	}
 }
 ```
 

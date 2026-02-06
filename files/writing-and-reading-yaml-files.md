@@ -24,6 +24,7 @@ import (
 	"fmt"
 	"gopkg.in/yaml.v3"
 	"os"
+	"log"
 )
 
 type Config struct {
@@ -37,14 +38,14 @@ func main() {
 
 	file, err := os.Create("config.yaml")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer file.Close()
 
 	encoder := yaml.NewEncoder(file)
 	err = encoder.Encode(&config)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	fmt.Println("YAML data written to file")
@@ -63,6 +64,7 @@ import (
 	"gopkg.in/yaml.v3"
 	"io"
 	"os"
+	"log"
 )
 
 type Config struct {
@@ -74,19 +76,19 @@ type Config struct {
 func main() {
 	file, err := os.Open("config.yaml")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer file.Close()
 
 	data, err := io.ReadAll(file)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	var config Config
 	err = yaml.Unmarshal(data, &config)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	fmt.Printf("YAML data: %+v\n", config)

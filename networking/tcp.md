@@ -18,12 +18,13 @@ import (
 	"bufio"
 	"fmt"
 	"net"
+	"log"
 )
 
 func main() {
 	ln, err := net.Listen("tcp", ":8080")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer ln.Close()
 
@@ -72,6 +73,7 @@ import (
 	"fmt"
 	"net"
 	"os"
+	"log"
 )
 
 func main() {
@@ -79,7 +81,7 @@ func main() {
 	address := net.JoinHostPort("localhost", "8080")
 	conn, err := net.Dial("tcp", address)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer conn.Close()
 

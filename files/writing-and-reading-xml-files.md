@@ -17,6 +17,7 @@ package main
 import (
 	"encoding/xml"
 	"os"
+	"log"
 )
 
 type Person struct {
@@ -34,7 +35,7 @@ type People struct {
 func main() {
 	file, err := os.Create("output.xml")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer file.Close()
 
@@ -53,7 +54,7 @@ func main() {
 	
 	// Encode the data to XML
 	if err := encoder.Encode(people); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }
 ```
@@ -69,6 +70,7 @@ import (
 	"encoding/xml"
 	"fmt"
 	"os"
+	"log"
 )
 
 type Person struct {
@@ -86,7 +88,7 @@ type People struct {
 func main() {
 	file, err := os.Open("output.xml")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer file.Close()
 
@@ -94,7 +96,7 @@ func main() {
 	var people People
 	
 	if err := decoder.Decode(&people); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	
 	fmt.Println("Number of people:", len(people.Persons))
@@ -117,6 +119,7 @@ import (
 	"fmt"
 	"os"
 	"time"
+	"log"
 )
 
 type Address struct {
@@ -138,7 +141,7 @@ type Person struct {
 func main() {
 	file, err := os.Open("complex.xml")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer file.Close()
 
@@ -146,7 +149,7 @@ func main() {
 	
 	var person Person
 	if err := decoder.Decode(&person); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	
 	fmt.Printf("Person: %s (ID: %d)\n", person.Name, person.ID)

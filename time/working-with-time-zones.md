@@ -17,12 +17,13 @@ package main
 import (
 	"fmt"
 	"time"
+	"log"
 )
 
 func main() {
 	loc, err := time.LoadLocation("America/New_York")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	t := time.Now().In(loc)
 	fmt.Println("The time in New York is:", t.Format(time.RFC1123))

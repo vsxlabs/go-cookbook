@@ -18,6 +18,7 @@ import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
+	"log"
 )
 
 type User struct {
@@ -31,7 +32,7 @@ func main() {
 	encoder := gob.NewEncoder(&buf)
 	user := User{Name: "Alice", Age: 29}
 	if err := encoder.Encode(user); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	fmt.Println("Serialized data:", buf.Bytes())
@@ -49,6 +50,7 @@ import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
+	"log"
 )
 
 type User struct {
@@ -63,7 +65,7 @@ func main() {
 
 	var user User
 	if err := decoder.Decode(&user); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	fmt.Printf("Deserialized User: %+v\n", user)
@@ -79,6 +81,7 @@ import (
 	"encoding/gob"
 	"fmt"
 	"os"
+	"log"
 )
 
 type User struct {
@@ -92,27 +95,27 @@ func main() {
 	// Serialize.
 	f, err := os.Create(filename)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer f.Close()
 
 	encoder := gob.NewEncoder(f)
 	user := User{Name: "Bob", Age: 35}
 	if err := encoder.Encode(user); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	// Deserialize.
 	f, err = os.Open(filename)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer f.Close()
 
 	decoder := gob.NewDecoder(f)
 	var decodedUser User
 	if err := decoder.Decode(&decodedUser); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	fmt.Printf("Deserialized User from file: %+v\n", decodedUser)

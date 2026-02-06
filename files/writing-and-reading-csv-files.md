@@ -17,12 +17,13 @@ package main
 import (
 	"encoding/csv"
 	"os"
+	"log"
 )
 
 func main() {
 	file, err := os.Create("output.csv")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer file.Close()
 
@@ -32,7 +33,7 @@ func main() {
 	// Write CSV header.
 	header := []string{"Name", "Age", "Email"}
 	if err := writer.Write(header); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	
 	// Write CSV records.
@@ -42,7 +43,7 @@ func main() {
 	}
 	for _, record := range records {
 		if err := writer.Write(record); err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 	}
 }
@@ -59,12 +60,13 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
+	"log"
 )
 
 func main() {
 	file, err := os.Open("output.csv")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer file.Close()
 
@@ -73,7 +75,7 @@ func main() {
 	// Read CSV header.
 	headers, err := reader.Read()
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Println("Headers:", headers)
 	
@@ -99,12 +101,13 @@ import (
 	"encoding/csv"
 	"fmt"
 	"os"
+	"log"
 )
 
 func main() {
 	file, err := os.Open("complex.csv")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer file.Close()
 
@@ -117,7 +120,7 @@ func main() {
 	// Reading records.
 	records, err := reader.ReadAll()
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	for i, record := range records {
 		fmt.Printf("Record %d: %v\n", i, record)

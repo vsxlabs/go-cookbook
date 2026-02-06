@@ -18,6 +18,7 @@ import (
 	"context"
 	"fmt"
 	"time"
+	"log"
 
 	clientv3 "go.etcd.io/etcd/client/v3"
 	"go.etcd.io/etcd/client/v3/concurrency"
@@ -29,19 +30,19 @@ func main() {
 		DialTimeout: 5 * time.Second,
 	})
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer client.Close()
 
 	session, err := concurrency.NewSession(client)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer session.Close()
 
 	mutex := concurrency.NewMutex(session, "/my-lock/")
 	if err := mutex.Lock(context.Background()); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	fmt.Println("Lock acquired!")
@@ -49,7 +50,7 @@ func main() {
 	time.Sleep(8 * time.Second) // Simulate work
 
 	if err := mutex.Unlock(context.Background()); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Println("Lock released!")
 }

@@ -17,6 +17,7 @@ package main
 import (
 	"os"
 	"text/template"
+	"log"
 )
 
 func main() {
@@ -26,13 +27,13 @@ func main() {
 	// Parse the template string.
 	t, err := template.New("hello").Parse(tmpl)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	// Execute the template with data.
 	err = t.Execute(os.Stdout, "World")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }
 ```
@@ -47,6 +48,7 @@ package main
 import (
 	"os"
 	"text/template"
+	"log"
 )
 
 type User struct {
@@ -61,7 +63,7 @@ func main() {
 	// Parse the template string.
 	t, err := template.New("user").Parse(tmpl)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	// Create a user struct.
@@ -70,7 +72,7 @@ func main() {
 	// Execute the template with struct data.
 	err = t.Execute(os.Stdout, user)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }
 ```
@@ -86,6 +88,7 @@ import (
 	"os"
 	"strings"
 	"text/template"
+	"log"
 )
 
 func main() {
@@ -98,13 +101,13 @@ func main() {
 	}
 	t, err := template.New("msg").Funcs(funcMap).Parse(tmpl)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	// Execute the template with data.
 	err = t.Execute(os.Stdout, "hello world")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }
 ```

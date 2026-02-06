@@ -19,7 +19,7 @@ import (
 	"reflect"
 )
 
-func printTypeAndValue(v interface{}) {
+func printTypeAndValue(v any) {
 	val := reflect.ValueOf(v)
 	fmt.Printf("Type: %s, Value: %v\n", val.Type(), val.Interface())
 }
@@ -47,7 +47,7 @@ import (
 	"reflect"
 )
 
-func setValueToZero(ptr interface{}) {
+func setValueToZero(ptr any) {
 	val := reflect.ValueOf(ptr)
 	if val.Kind() == reflect.Ptr && !val.IsNil() {
 		elem := val.Elem()
@@ -82,7 +82,7 @@ type Person struct {
 	Age  int
 }
 
-func printStructFields(s interface{}) {
+func printStructFields(s any) {
 	val := reflect.ValueOf(s)
 	typeOfS := val.Type()
 

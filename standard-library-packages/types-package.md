@@ -65,6 +65,7 @@ import (
 	"go/token"
 	"golang.org/x/tools/go/packages"
 	"golang.org/x/tools/go/types"
+	"log"
 )
 
 func main() {
@@ -73,7 +74,7 @@ func main() {
 	fset := token.NewFileSet()
 	file, err := parser.ParseFile(fset, "example.go", src, 0)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	conf := types.Config{Importer: packages.DefaultImporter()}
@@ -83,7 +84,7 @@ func main() {
 
 	pkg, err := conf.Check("main", fset, []*ast.File{file}, info)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	for _, name := range pkg.Scope().Names() {

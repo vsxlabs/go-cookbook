@@ -17,6 +17,7 @@ package main
 import (
 	"encoding/json"
 	"os"
+	"log"
 )
 
 type Person struct {
@@ -29,13 +30,13 @@ func main() {
 	
 	file, err := os.Create("person.json")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer file.Close()
 
 	encoder := json.NewEncoder(file)
 	if err := encoder.Encode(person); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }
 ```
@@ -51,6 +52,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"os"
+	"log"
 )
 
 type Person struct {
@@ -61,14 +63,14 @@ type Person struct {
 func main() {
 	file, err := os.Open("person.json")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer file.Close()
 
 	var person Person
 	decoder := json.NewDecoder(file)
 	if err := decoder.Decode(&person); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	fmt.Printf("Name: %s, Age: %d\n", person.Name, person.Age)
 }

@@ -17,19 +17,20 @@ package main
 import (
 	"fmt"
 	"net"
+	"log"
 )
 
 func main() {
 	conn, err := net.Dial("udp", "localhost:8080")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer conn.Close()
 
 	message := []byte("Hello, UDP!")
 	_, err = conn.Write(message)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	fmt.Println("Message sent!")
@@ -46,17 +47,18 @@ package main
 import (
 	"fmt"
 	"net"
+	"log"
 )
 
 func main() {
 	address, err := net.ResolveUDPAddr("udp", ":8080")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	conn, err := net.ListenUDP("udp", address)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer conn.Close()
 

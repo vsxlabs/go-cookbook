@@ -15,8 +15,9 @@ Here is an example of setting up a basic HTTP server with a RESTful endpoint:
 package main
 
 import (
-	"encoding/json"
-	"net/http"
+	"encoding/json"	
+	"log"
+	"net/http"	
 )
 
 type Item struct {
@@ -32,7 +33,9 @@ func getItems(w http.ResponseWriter, r *http.Request) {
 
 func main() {
 	http.HandleFunc("/items", getItems)
-	http.ListenAndServe(":8080", nil)
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal(err)
+	}
 }
 ```
 
@@ -45,6 +48,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"sync"
 )
@@ -91,7 +95,9 @@ func createItem(w http.ResponseWriter, r *http.Request) {
 func main() {
 	http.HandleFunc("/item", getItemByID)
 	http.HandleFunc("/items", createItem)
-	http.ListenAndServe(":8080", nil)
+	if err := http.ListenAndServe(":8080", nil); err != nil {
+		log.Fatal(err)
+	}
 }
 ```
 
@@ -104,6 +110,7 @@ package main
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"sync"
 
@@ -154,7 +161,9 @@ func main() {
 	r := mux.NewRouter()
 	r.HandleFunc("/items", createItem).Methods("POST")
 	r.HandleFunc("/items/{id}", getItemByID).Methods("GET")
-	http.ListenAndServe(":8080", r)
+	if err := http.ListenAndServe(":8080", r); err != nil {
+		log.Fatal(err)
+	}
 }
 ```
 

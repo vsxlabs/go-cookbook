@@ -45,12 +45,13 @@ package main
 import (
 	"fmt"
 	"os"
+	"log"
 )
 
 func main() {
 	f, err := os.Open("example.txt")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer f.Close()
 
@@ -81,26 +82,27 @@ import (
 	"fmt"
 	"os"
 	"syscall"
+	"log"
 )
 
 func main() {
 	// Open file.
 	f, err := os.Open("example.txt")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer f.Close()
 
 	// Get file size.
 	fi, err := f.Stat()
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	// Memory-map the file's contents.
 	data, err := syscall.Mmap(int(f.Fd()), 0, int(fi.Size()), syscall.PROT_READ, syscall.MAP_SHARED)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer syscall.Munmap(data)
 

@@ -74,7 +74,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	var obj map[string]interface{}
+	var obj map[string]any
 	if err := json.Unmarshal(utf8Data, &obj); err != nil {
 		log.Fatal(err)
 	}

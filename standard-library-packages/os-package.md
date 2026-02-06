@@ -18,12 +18,13 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"log"
 )
 
 func main() {
 	file, err := os.Open("example.txt")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 	defer file.Close()
 
@@ -34,7 +35,7 @@ func main() {
 			break
 		}
 		if err != nil {
-			panic(err)
+			log.Fatal(err)
 		}
 		fmt.Printf(string(buffer[:n]))
 	}
@@ -51,6 +52,7 @@ package main
 import (
 	"fmt"
 	"os"
+	"log"
 )
 
 func main() {
@@ -61,7 +63,7 @@ func main() {
 	// Set an environment variable.
 	err := os.Setenv("MY_VAR", "my_value")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	value := os.Getenv("MY_VAR")
@@ -79,19 +81,20 @@ package main
 import (
 	"fmt"
 	"os"
+	"log"
 )
 
 func main() {
 	// Create a new directory.
 	err := os.Mkdir("newdir", 0755)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	// Remove a directory.
 	err = os.Remove("newdir")
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	fmt.Println("Directory created and deleted successfully!")
