@@ -15,6 +15,7 @@ Here's a simple example that demonstrates how to generate code using the `text/t
 package main
 
 import (
+	"log"
 	"os"
 	"text/template"
 )
@@ -37,11 +38,11 @@ func main() {
 
 	tmpl, err := template.New("hello").Parse(tpl)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	if err = tmpl.Execute(os.Stdout, data); err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }
 ```
@@ -53,10 +54,11 @@ You can enhance templates with custom functions to extend functionality:
 ```go
 package main
 
-import (
+import (	
+	"log"
 	"os"
-	"text/template"
 	"strings"
+	"text/template"
 )
 
 func main() {
@@ -79,12 +81,12 @@ func main() {
 
 	tmpl, err := template.New("uppercase").Funcs(funcMap).Parse(tpl)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	err = tmpl.Execute(os.Stdout, data)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }
 ```
@@ -97,6 +99,7 @@ You can also generate Go structs with predefined fields from templates:
 package main
 
 import (
+	"log"
 	"os"
 	"text/template"
 )
@@ -130,12 +133,12 @@ type {{.StructName}} struct {
 
 	tmpl, err := template.New("struct").Parse(tpl)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 
 	err = tmpl.Execute(os.Stdout, data)
 	if err != nil {
-		panic(err)
+		log.Fatal(err)
 	}
 }
 ```

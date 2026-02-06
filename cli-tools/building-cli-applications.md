@@ -15,6 +15,7 @@ package main
 import (
 	"flag"
 	"fmt"
+	"log"	
 )
 
 func main() {
@@ -24,7 +25,7 @@ func main() {
 
 	if *task == "" {
 		fmt.Println("Error: Task required.")
-		return
+		log.Fatal("task parameter is required")
 	}
 
 	fmt.Printf("Added task: %s (Priority: %d)\n", *task, *priority)
@@ -44,6 +45,7 @@ package main
 import (
 	"fmt"
 	"github.com/spf13/cobra"
+	"log"
 	"os"
 )
 
@@ -66,7 +68,10 @@ func main() {
 
 	addCmd.Flags().IntVarP(&priority, "priority", "p", 1, "Task priority (1-5)")
 	rootCmd.AddCommand(addCmd)
-	rootCmd.Execute()
+	
+	if err := rootCmd.Execute(); err != nil {
+		log.Fatal(err)
+	}
 }
 ```
 
@@ -83,6 +88,7 @@ package main
 import (
 	"fmt"
 	"github.com/urfave/cli/v3"
+	"log"
 	"os"
 )
 
@@ -112,7 +118,9 @@ func main() {
 		},
 	}
 
-	app.Run(os.Args)
+	if err := app.Run(os.Args); err != nil {
+		log.Fatal(err)
+	}
 }
 ```
 
