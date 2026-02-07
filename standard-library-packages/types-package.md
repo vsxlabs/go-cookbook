@@ -1,11 +1,11 @@
 ---
 title: 'Working with the types Package'
-description: 'Explore the capabilities of the types package in Go for type checking and manipulation'
+description: 'Explore the capabilities of the go/types package in Go for type checking and manipulation'
 date: '2025-03-24'
 category: 'Standard library packages'
 ---
 
-The `types` package in Go's `golang.org/x/tools/go/types` module provides facilities for type information and manipulation of Go source code. It's particularly useful for tools that require sophisticated understanding of Go code beyond what is possible with mere lexical analysis.
+The `go/types` package in Go's standard library provides facilities for type information and manipulation of Go source code. It's particularly useful for tools that require sophisticated understanding of Go code beyond what is possible with mere lexical analysis.
 
 ## Basic Type Checking
 
@@ -16,10 +16,10 @@ package main
 
 import (
 	"go/ast"
+	"go/importer"
 	"go/parser"
 	"go/token"
-	"golang.org/x/tools/go/packages"
-	"golang.org/x/tools/go/types"
+	"go/types"
 	"log"
 )
 
@@ -37,7 +37,7 @@ func main() {
 	info := &types.Info{
 		Types: make(map[ast.Expr]types.TypeAndValue),
 	}
-	conf := types.Config{Importer: packages.DefaultImporter()}
+	conf := types.Config{Importer: importer.Default()}
 
 	// Check types.
 	if _, err := conf.Check("main", fset, []*ast.File{file}, info); err != nil {
@@ -77,7 +77,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	conf := types.Config{Importer: packages.DefaultImporter()}
+	conf := types.Config{Importer: importer.Default()}
 	info := &types.Info{
 		Defs: make(map[*ast.Ident]types.Object),
 	}

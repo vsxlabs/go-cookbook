@@ -111,7 +111,7 @@ func main() {
 ## Common Pitfalls
 
 - Be cautious of the zero value behavior; accessing a non-existent key returns the zero value for the map's value type.
-- Modifying a map while iterating over it can lead to race conditions; avoid doing so or ensure synchronization.
+- Concurrent map access from multiple goroutines (reading while another writes, or multiple writers) causes runtime panics. Use synchronization (e.g., `sync.RWMutex`) or `sync.Map` for concurrent access. Note: deleting entries during iteration in a single goroutine is safe.
 - Forgetting that maps are not deep-copied automatically—sharing a map reference can lead to unintended data changes.
 
 ## Performance Tips

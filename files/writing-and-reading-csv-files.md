@@ -59,8 +59,9 @@ package main
 import (
 	"encoding/csv"
 	"fmt"
-	"os"
+	"io"
 	"log"
+	"os"
 )
 
 func main() {
@@ -82,8 +83,11 @@ func main() {
 	// Read CSV records.
 	for {
 		record, err := reader.Read()
-		if err != nil {
+		if err == io.EOF {
 			break
+		}
+		if err != nil {
+			log.Fatal("Error reading CSV:", err)
 		}
 		fmt.Println("Record:", record)
 	}

@@ -9,7 +9,7 @@ Network Time Protocol (NTP) is a networking protocol for clock synchronization b
 
 ## Basic NTP Client
 
-Here's a simple implementation to query an NTP server and adjust local time:
+Here's a simple implementation to query an NTP server and compare with local time:
 
 ```go
 package main

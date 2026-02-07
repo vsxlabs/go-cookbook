@@ -154,6 +154,6 @@ func main() {
 
 - Pre-allocate slices using `make` function to avoid multiple allocations.
 - Be mindful of large memory allocations during `append` operations; use `cap()` to optimize capacity size.
-- Avoid using large slices passed by value, as it involves copying each element, which can be costly.
+- Passing a slice by value only copies the slice header (pointer, length, capacity), not the underlying elements. However, be aware that modifications to elements will affect all copies since they share the same backing array.
 - Use slicing operations carefully to avoid inadvertent high-memory usage by sharing a large backing array.
 - Use `slices` package utilities for common operations like sorting, searching, and manipulation for better performance and correctness.

@@ -223,7 +223,6 @@ func main() {
 		fmt.Println("Server failed:", err)
 	}
 }
-}
 ```
 
 ## Subrouters for Modular Design

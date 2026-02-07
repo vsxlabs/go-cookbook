@@ -25,27 +25,33 @@ import (
 )
 
 func main() {
-	// Create a JSON logger
+	// Create a JSON logger.
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 		Level: slog.LevelInfo,
 	}))
 
-	// Set as default logger
+	// Set as default logger.
 	slog.SetDefault(logger)
 
-	// Add default attributes to all log entries
+	// Add default attributes to all log entries.
 	baseLogger := logger.With(
 		"app", "example",
 		"env", "production",
 	)
 
-	// Create a context with a correlation ID
-	ctx := context.WithValue(context.Background(), "correlation_id", "12345")
+	// Define a custom key type to avoid collisions.
+	type contextKey string
+	const correlationIDKey contextKey = "correlation_id"
+
+	// Create a context with a correlation ID.
+	ctx := context.WithValue(context.Background(), correlationIDKey, "12345")
 	logWithContext(ctx, baseLogger)
 }
 
 func logWithContext(ctx context.Context, logger *slog.Logger) {
-	correlationID := ctx.Value("correlation_id")
+	type contextKey string
+	const correlationIDKey contextKey = "correlation_id"
+	correlationID := ctx.Value(correlationIDKey)
 
 	// Create a logger with correlation ID
 	l := logger.With("correlation_id", correlationID)
@@ -75,21 +81,25 @@ import (
 )
 
 func main() {
-	// Initialize JSON logger
+	// Initialize JSON logger.
 	logger := slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 		Level: slog.LevelInfo,
 	}))
 	slog.SetDefault(logger)
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		// Define a custom key type to avoid collisions.
+		type contextKey string
+		const requestIDKey contextKey = "request_id"
+
 		// Extract or generate a request ID for tracing
 		requestID := r.Header.Get("X-Request-ID")
 		if requestID == "" {
 			requestID = "default-id"
 		}
 
-		// Attach the request ID to context
-		ctx := context.WithValue(r.Context(), "request_id", requestID)
+		// Attach the request ID to context.
+		ctx := context.WithValue(r.Context(), requestIDKey, requestID)
 
 		// Create request-scoped logger
 		reqLogger := logger.With(

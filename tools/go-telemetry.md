@@ -5,7 +5,7 @@ date: '2025-08-15'
 category: 'Tools'
 ---
 
-Go Telemetry is an opt-in analytics system that collects anonymous usage statistics from the Go toolchain to help the Go team understand how Go is being used and identify areas for improvement.
+Go Telemetry is an analytics system (enabled by default with `GOTELEMETRY=local` in recent Go versions) that collects anonymous usage statistics from the Go toolchain to help the Go team understand how Go is being used and identify areas for improvement. You can opt-out if desired.
 
 ## Understanding Go Telemetry
 

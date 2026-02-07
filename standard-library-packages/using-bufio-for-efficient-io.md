@@ -92,7 +92,21 @@ import (
 func main() {
 	input := "Go,bufio,package,example"
 	scanner := bufio.NewScanner(strings.NewReader(input))
-	scanner.Split(bufio.ScanWords) // Split by words
+	
+	// Note: ScanWords splits on whitespace, not commas.
+	// For comma-separated input, use a custom split function.
+	scanner.Split(func(data []byte, atEOF bool) (advance int, token []byte, err error) {
+		if atEOF && len(data) == 0 {
+			return 0, nil, nil
+		}
+		if i := strings.IndexByte(string(data), ','); i >= 0 {
+			return i + 1, data[0:i], nil
+		}
+		if atEOF {
+			return len(data), data, nil
+		}
+		return 0, nil, nil
+	})
 
 	for scanner.Scan() {
 		fmt.Println(scanner.Text())

@@ -97,8 +97,18 @@ func main() {
 		log.Fatalf("JWT claims validation failed: %v", err)
 	}
 
-	// Additional validations can be performed here.
-	fmt.Printf("JWT Claims: %+v\n", claims)
+	// Validate standard claims (expiry, audience, issuer, etc.).
+	expectedAudience := jwt.Audience{"your-app"}
+	expectedIssuer := "your-issuer"
+	if err := claims.Validate(jwt.Expected{
+		Audience: expectedAudience,
+		Issuer:   expectedIssuer,
+		Time:     time.Now(),
+	}); err != nil {
+		log.Fatalf("JWT validation failed: %v", err)
+	}
+
+	fmt.Printf("JWT Claims validated successfully: %+v\n", claims)
 }
 ```
 

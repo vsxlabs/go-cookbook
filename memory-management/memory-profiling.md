@@ -27,14 +27,14 @@ func main() {
 	}
 	defer f.Close()
 
-	// Start profiling.
+	// Your application logic here.
+	slice := make([]byte, 1<<20) // Allocate 1MB.
+	_ = slice
+
+	// Write heap profile after allocations.
 	if err := pprof.WriteHeapProfile(f); err != nil {
 		log.Fatal("could not write memory profile: ", err)
 	}
-
-	// Your application logic here.
-	slice := make([]byte, 1<<20) // Allocate 1MB
-	_ = slice
 
 	log.Println("Memory profiling completed.")
 }

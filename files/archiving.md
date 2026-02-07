@@ -83,7 +83,14 @@ func extractTar(tarPath, destDir string) error {
 			return err
 		}
 
-		outPath := filepath.Join(destDir, hdr.Name)
+		// Sanitize archive path to prevent directory traversal (zip-slip).
+		cleanName := filepath.Clean(hdr.Name)
+
+		if !filepath.IsLocal(cleanName) {
+			return fmt.Errorf("invalid file path: %s", hdr.Name)
+		}
+
+		outPath := filepath.Join(destDir, cleanName)
 		if err := os.MkdirAll(filepath.Dir(outPath), 0755); err != nil {
 			return err
 		}
@@ -170,39 +177,76 @@ func writeToZip(zw *zip.Writer, srcPath string) error {
 }
 
 func unpackZip(zipPath, targetDir string) error {
-	zipReader, err := zip.OpenReader(zipPath)
+	zr, err := zip.OpenReader(zipPath)
 	if err != nil {
 		return err
 	}
-	defer zipReader.Close()
+	defer zr.Close()
 
-	if err := os.MkdirAll(targetDir, 0755); err != nil {
+	// Clean once; used for prefix check.
+	targetDir = filepath.Clean(targetDir)
+	base := targetDir + string(os.PathSeparator)
+
+	if err := os.MkdirAll(targetDir, 0o755); err != nil {
 		return err
 	}
 
-	for _, entry := range zipReader.File {
-		entryReader, err := entry.Open()
+	for _, f := range zr.File {
+		// Validate/sanitize entry name.
+		name := filepath.Clean(f.Name)
+		if !filepath.IsLocal(name) {
+			return fmt.Errorf("invalid entry path: %q", f.Name)
+		}
+
+		outPath := filepath.Join(targetDir, name)
+		outPath = filepath.Clean(outPath)
+
+		// Ensure the final path is inside targetDir (prevents zip-slip).
+		if outPath != targetDir && !strings.HasPrefix(outPath, base) {
+			return fmt.Errorf("path escapes target dir: %q", f.Name)
+		}
+
+		// Directories.
+		if f.FileInfo().IsDir() {
+			if err := os.MkdirAll(outPath, 0o755); err != nil {
+				return err
+			}
+			continue
+		}
+
+		// Ensure parent dirs exist.
+		if err := os.MkdirAll(filepath.Dir(outPath), 0o755); err != nil {
+			return err
+		}
+
+		rc, err := f.Open()
 		if err != nil {
 			return err
 		}
 
-		outputPath := filepath.Join(targetDir, entry.Name)
-		outputFile, err := os.Create(outputPath)
+		outFile, err := os.OpenFile(outPath, os.O_CREATE|os.O_TRUNC|os.O_WRONLY, 0o644)
 		if err != nil {
-			entryReader.Close()
+			rc.Close()
 			return err
 		}
 
-		if _, err := io.Copy(outputFile, entryReader); err != nil {
-			return err
+		_, copyErr := io.Copy(outFile, rc)
+
+		// Close in the right order; preserve copy error if any.
+		closeErr1 := outFile.Close()
+		closeErr2 := rc.Close()
+
+		if copyErr != nil {
+			return copyErr
 		}
-		if err := outputFile.Close(); err != nil {
-			return err
+		if closeErr1 != nil {
+			return closeErr1
 		}
-		if err := entryReader.Close(); err != nil {
-			return err
+		if closeErr2 != nil {
+			return closeErr2
 		}
 	}
+
 	return nil
 }
 

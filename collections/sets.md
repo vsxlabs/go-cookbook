@@ -100,4 +100,18 @@ func main() {
 
 ## Best Practices
 
-- Use `
+- Use map-based sets for O(1) lookup, insertion, and deletion operations. They are more efficient than slice-based implementations for most use cases.
+- For slice-based sets with frequent lookups, keep the slice sorted and use binary search for better performance.
+- For complex set operations (union, intersection, difference), consider using established third-party libraries.
+
+## Common Pitfalls
+
+- Forgetting that maps are not thread-safe; use `sync.Map` or mutex locks for concurrent access.
+- Not considering the performance implications of slice operations; frequent additions/removals can be O(n) with slices.
+
+## Performance Tips
+
+- Map-based sets generally provide better performance for large datasets.
+- Consider using `map[T]struct{}` instead of `map[T]bool` to save memory, as using empty structs avoids storing a value payload.
+- Pre-allocate maps with `make(map[T]struct{}, expectedSize)` if you know the approximate size.
+- Avoid unnecessary sorting in slice-based sets; only sort when needed for binary search operations.

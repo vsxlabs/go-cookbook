@@ -30,12 +30,16 @@ import (
 	"log"
 	"time"
 
-	pb "path/to/your/proto/package" // Import the generated proto package
+	pb "path/to/your/proto/package" // Import the generated proto package.
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
 )
 
 func main() {
-	conn, err := grpc.Dial("localhost:50051", grpc.WithInsecure(), grpc.WithBlock())
+	// For development/testing only - use proper TLS credentials in production.
+	conn, err := grpc.Dial("localhost:50051", 
+		grpc.WithTransportCredentials(insecure.NewCredentials()), 
+		grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}

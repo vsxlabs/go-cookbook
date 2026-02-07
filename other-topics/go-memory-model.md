@@ -20,7 +20,7 @@ package main
 
 import (
 	"fmt"
-	"time"
+	"sync"
 )
 
 func main() {
@@ -29,15 +29,18 @@ func main() {
 
 	go func() {
 		memory = 42
-		done <- true // Notify main goroutine about completion
+		done <- true // Notify main goroutine about completion.
 	}()
 
+	var wg sync.WaitGroup
+	wg.Add(1)
 	go func() {
-		<-done       // Wait for memory to be written
+		defer wg.Done()
+		<-done       // Wait for memory to be written.
 		fmt.Println("Memory value:", memory)
 	}()
 
-	time.Sleep(time.Second) // Wait for goroutines to finish
+	wg.Wait() // Wait for goroutines to finish.
 }
 ```
 
@@ -63,7 +66,7 @@ func main() {
 		memory = 42
 	}()
 
-	wg.Wait() // Ensure the write is complete before proceeding
+	wg.Wait()
 	fmt.Println("Memory value:", memory)
 }
 ```

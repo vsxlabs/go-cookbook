@@ -1,11 +1,11 @@
 ---
 title: 'Managing Dependencies'
-description: 'Learn how to manage dependencies in Go using the dep tool and Go Modules, the recommended approach for dependency management.'
+description: 'Learn how to manage dependencies in Go using Go Modules, the standard approach for dependency management.'
 date: '2025-03-24'
 category: 'Tools'
 ---
 
-As your Go applications grow, managing dependencies becomes crucial. Go provides robust tools to help manage these dependencies smoothly. Initially, the `dep` tool was used, but Go Modules is now the recommended approach.
+As your Go applications grow, managing dependencies becomes crucial. Go Modules (introduced in Go 1.11 and default since Go 1.16) is the standard tool for dependency management. Note: The `dep` tool is deprecated and should not be used for new projects.
 
 ## Using Go Modules
 

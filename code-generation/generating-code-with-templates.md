@@ -65,10 +65,12 @@ func main() {
 	const tpl = `
 package main
 
-import "strings"
+import (
+	"fmt"	
+)
 
 func main() {
-	uppercase := {{. | uppercase}}
+	uppercase := "{{. | uppercase}}"
 	fmt.Println(uppercase)
 }
 `

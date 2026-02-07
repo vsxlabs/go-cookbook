@@ -70,16 +70,16 @@ Popular Go localization library `go-i18n` supports pluralization in a more compr
    package main
 
    import (
+       "encoding/json"
        "fmt"
        "github.com/nicksnyder/go-i18n/v2/i18n"
        "golang.org/x/text/language"
-       "os"
    )
 
    func main() {
        bundle := &i18n.Bundle{DefaultLanguage: language.English}
        
-       bundle.RegisterUnmarshalFunc("json", i18nmessage.UnmarshalJSON)
+       bundle.RegisterUnmarshalFunc("json", json.Unmarshal)
        bundle.MustLoadMessageFile("active.en.json")
 
        localizer := i18n.NewLocalizer(bundle, language.English.String())

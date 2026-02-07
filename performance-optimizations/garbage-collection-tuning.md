@@ -22,16 +22,15 @@ package main
 
 import (
 	"fmt"
-	"runtime"
+	"runtime/debug"
 )
 
 func main() {
 	// Set the GC target percentage to 50%.
-	runtime.GOMAXPROCS(1)
-	runtime.GC()
+	debug.SetGCPercent(50)
 	
-	fmt.Println("Adjusting GOGC...")
-	runtime.GC() // Manually trigger GC if needed
+	fmt.Println("Adjusted GOGC to 50%")
+	// The GC will now run when the heap grows by 50% instead of the default 100%
 }
 ```
 

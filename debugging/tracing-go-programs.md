@@ -86,7 +86,8 @@ func main() {
 }
 ```
 
-Then you can access profiling data via `http://localhost:6060/debug/pprof/` and stop tracing through the same URL.
+Then you can access profiling data via `http://localhost:6060/debug/pprof/`.
+Note: This example starts tracing programmatically via `trace.Start()` and stops it with `defer trace.Stop()`. For HTTP-triggered tracing, use the `/debug/pprof/trace` endpoint instead.
 
 ## Best Practices
 

@@ -70,17 +70,12 @@ The `panic` function is used to handle unexpected errors by stopping the executi
 ```go
 package main
 
-import (
-	"os"
-	"log"
-)
-
 func main() {
-	f, err := os.Open("nonexistent.txt")
-	if err != nil {
-		log.Fatal(err)
+	// Demonstrate panic with an unexpected condition.
+	value := -1
+	if value < 0 {
+		panic("unexpected negative value")
 	}
-	defer f.Close()
 }
 ```
 

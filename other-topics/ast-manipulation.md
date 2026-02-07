@@ -131,8 +131,16 @@ func main() {
 	// Create a new statement to insert.
 	newCall := &ast.ExprStmt{
 		X: &ast.CallExpr{
-			Fun:  ast.NewIdent("fmt.Println"),
-			Args: []ast.Expr{ast.NewIdent("\"New statement\"")},
+			Fun: &ast.SelectorExpr{
+				X:   ast.NewIdent("fmt"),
+				Sel: ast.NewIdent("Println"),
+			},
+			Args: []ast.Expr{
+				&ast.BasicLit{
+					Kind:  token.STRING,
+					Value: "\"New statement\"",
+				},
+			},
 		},
 	}
 

@@ -62,6 +62,13 @@ func main() {
 	defer f.Close()
 
 	decoder := json.NewDecoder(f)
+	
+	// Consume opening bracket for array.
+	if _, err := decoder.Token(); err != nil {
+		log.Fatalf("Error reading opening token: %v", err)
+	}
+	
+	// Decode each product in the array.
 	for decoder.More() {
 		var product Product
 		if err := decoder.Decode(&product); err != nil {

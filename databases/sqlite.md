@@ -1,6 +1,6 @@
 ---
 title: 'Working with SQLite Databases'
-description: 'Learn how to interact with SQLite databases in Go using the modernc.org/sqlite/driver package'
+description: 'Learn how to interact with SQLite databases in Go using the github.com/mattn/go-sqlite3 package'
 date: '2025-03-24'
 category: 'Databases'
 ---
@@ -24,7 +24,7 @@ import (
 
 func main() {
 	// Open a new connection to the SQLite database.
-	db, err := sql.Open("sqlite", "./test.db")
+	db, err := sql.Open("sqlite3", "./test.db")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -82,7 +82,7 @@ import (
 )
 
 func main() {
-	db, err := sql.Open("sqlite", "./test.db")
+	db, err := sql.Open("sqlite3", "./test.db")
 	if err != nil {
 		log.Fatal(err)
 	}

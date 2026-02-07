@@ -42,9 +42,14 @@ func main() {
 	node := rafttest.NewRaft(c, storage)
 
 	// Event loop - This is simplistic; error handling must be more robust in real systems.
+	ticker := time.NewTicker(100 * time.Millisecond)
+	defer ticker.Stop()
+	
 	go func() {
 		for {
 			select {
+			case <-ticker.C:
+				node.Tick()
 			case rd := <-node.Ready():
 				storage.Append(rd.Entries)
 				if len(rd.Messages) > 0 {

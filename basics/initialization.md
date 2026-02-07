@@ -121,7 +121,8 @@ func main() {
 
 - Forgetting to initialize pointers, leading to nil pointer dereferences.
 - Overlooking zero values in Go (e.g., `""` for strings, `0` for integers).
-- Ignoring `nil` check for slices and maps which can cause runtime errors when accessing elements or keys.
+- For nil maps: reading is safe (returns zero value), but writing causes a panic. Always initialize maps with `make` before writing.
+- For nil slices: ranging and appending are safe, but indexing causes a panic. Check length before accessing by index.
 
 ## Performance Tips
 

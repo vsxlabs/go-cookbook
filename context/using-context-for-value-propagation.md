@@ -19,15 +19,20 @@ import (
 	"fmt"
 )
 
+// Define a custom key type to avoid collisions.
+type contextKey string
+
+const sessionIDKey contextKey = "sessionID"
+
 func main() {
 	ctx := context.Background()
-	ctx = context.WithValue(ctx, "sessionID", 42)
+	ctx = context.WithValue(ctx, sessionIDKey, 42)
 
 	processRequest(ctx)
 }
 
 func processRequest(ctx context.Context) {
-	sessionID, ok := ctx.Value("sessionID").(int)
+	sessionID, ok := ctx.Value(sessionIDKey).(string)
 	if !ok {
 		fmt.Println("sessionID not found in context")
 		return

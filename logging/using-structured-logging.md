@@ -41,12 +41,14 @@ func main() {
 
 ## Output Example
 
-When you run the previous code, the structured logs will be in JSON format by default:
+When you run the previous code with `NewTextHandler`, the structured logs will be in key=value text format:
 
-```json
+```
 time=2009-11-10T23:00:00.000Z level=INFO msg="User logged in" event=user_login user=johndoe
 time=2009-11-10T23:00:00.000Z level=WARN msg="File upload completed with warnings" event=file_upload user=johndoe size=3456
 ```
+
+If you want JSON output, use `NewJSONHandler` instead of `NewTextHandler`.
 
 ## Best Practices
 

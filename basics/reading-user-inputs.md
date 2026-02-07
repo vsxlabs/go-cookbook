@@ -44,6 +44,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 )
 
 func main() {
@@ -51,7 +52,11 @@ func main() {
 	fmt.Print("Enter your name: ")
 	
 	// Read input using fmt.
-	fmt.Scanln(&name)
+	_, err := fmt.Scanln(&name)
+	if err != nil {
+		fmt.Println("Error reading input:", err)
+		os.Exit(1)
+	}
 	fmt.Printf("Hello, %s\n", name)
 }
 ```
@@ -65,6 +70,7 @@ package main
 
 import (
 	"fmt"
+	"os"
 	"strconv"
 	"strings"
 )
@@ -72,7 +78,11 @@ import (
 func main() {
 	var input string
 	fmt.Print("Enter your age: ")
-	fmt.Scanln(&input)
+	_, err := fmt.Scanln(&input)
+	if err != nil {
+		fmt.Println("Error reading input:", err)
+		os.Exit(1)
+	}
 	
 	// Convert a string to an integer.
 	age, err := strconv.Atoi(strings.TrimSpace(input))

@@ -93,17 +93,10 @@ import (
 )
 
 func main() {
-	var wg sync.WaitGroup
-	dataCh := make(chan int)
 	const numGoroutines = 10
 
-	go func() {
-		total := 0
-		for v := range dataCh {
-			total += v
-		}
-		fmt.Println("Data value:", total)
-	}()
+	dataCh := make(chan int, numGoroutines)
+	var wg sync.WaitGroup
 
 	for i := 0; i < numGoroutines; i++ {
 		wg.Add(1)
@@ -113,8 +106,16 @@ func main() {
 		}()
 	}
 
-	wg.Wait()
-	close(dataCh)
+	go func() {
+		wg.Wait()
+		close(dataCh)
+	}()
+
+	total := 0
+	for v := range dataCh {
+		total += v
+	}
+	fmt.Println("Data value:", total)
 }
 ```
 

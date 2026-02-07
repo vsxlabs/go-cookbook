@@ -15,17 +15,16 @@ Here's a simple example of how to use the `go-i18n` package to localize strings 
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"golang.org/x/text/language"
-	"golang.org/x/text/message"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
-	"github.com/nicksnyder/go-i18n/v2/i18n/bundle"
 )
 
 func main() {
 	// Create a new Bundle with the default language.
 	bundle := i18n.NewBundle(language.English)
-	bundle.RegisterUnmarshalFunc("json", bundle.UnmarshalJSON)
+	bundle.RegisterUnmarshalFunc("json", json.Unmarshal)
 	bundle.LoadMessageFile("active.en.json")
 	bundle.LoadMessageFile("active.es.json")
 
@@ -71,6 +70,7 @@ These files should be placed in accessible paths for the application.
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"golang.org/x/text/language"
 	"github.com/nicksnyder/go-i18n/v2/i18n"
@@ -78,7 +78,7 @@ import (
 
 func main() {
 	bundle := i18n.NewBundle(language.English)
-	bundle.RegisterUnmarshalFunc("json", bundle.UnmarshalJSON)
+	bundle.RegisterUnmarshalFunc("json", json.Unmarshal)
 	bundle.LoadMessageFile("active.en.json")
 
 	localizer := i18n.NewLocalizer(bundle, "en")

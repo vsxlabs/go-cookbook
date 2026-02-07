@@ -26,14 +26,16 @@ func main() {
 	// Create a bytes.Buffer without copying data.
 	buf := bytes.NewBuffer(data)
 
-	// Directly read from the buffer.
+	// Directly read from the buffer as bytes (zero-copy).
 	output := buf.Bytes()
 
-	fmt.Println(string(output)) // Output: Hello, World!
+	// Note: Process output as []byte to maintain zero-copy.
+	// Converting to string (string(output)) would create a copy.
+	fmt.Printf("Length: %d bytes\n", len(output))
 }
 ```
 
-In the example above, the `bytes.Buffer` is initialized using `NewBuffer`, which does not copy the data slice, hence allowing zero-copy operations.
+In the example above, the `bytes.Buffer` is initialized using `NewBuffer`, which does not copy the data slice. To maintain zero-copy, work with the `[]byte` directly rather than converting to string.
 
 ## Reading Data Using `io.Reader` Interfaces
 
@@ -63,13 +65,20 @@ func main() {
 		if err != nil {
 			break
 		}
-		// Directly process the buffer.
-		fmt.Print(string(buf[:n]))
+		// Process the buffer directly as []byte for zero-copy.
+		// Note: Converting to string creates a copy.
+		// For true zero-copy, write directly to an io.Writer or process as bytes.
+		processBytes(buf[:n])
 	}
+}
+
+func processBytes(data []byte) {
+	// Process bytes directly without conversion
+	fmt.Printf("Read %d bytes\n", len(data))
 }
 ```
 
-In this example, the file reading operates directly into the buffer, allowing efficient reading without copying data into new slices.
+In this example, the file reading operates directly into the buffer. To maintain zero-copy, process the `[]byte` directly rather than converting to string.
 
 ## Using `mmap` for File Access
 

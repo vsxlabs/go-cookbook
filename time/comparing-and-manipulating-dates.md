@@ -9,7 +9,7 @@ Go provides a rich set of functionalities for handling dates and times through t
 
 ## Comparing Dates
 
-You can compare two `time.Time` values using comparison operators such as `==`, `!=`, `<`, `>`, `<=`, and `>=`.
+You should compare two `time.Time` values using the `Before`, `After`, and `Equal` methods rather than comparison operators like `==`, `<`, `>` to handle timezone differences correctly.
 
 ```go
 package main

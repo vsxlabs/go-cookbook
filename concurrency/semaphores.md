@@ -16,6 +16,7 @@ package main
 
 import (
 	"fmt"
+	"sync"
 	"time"
 )
 
@@ -37,9 +38,12 @@ func (s *Semaphore) Release() {
 func main() {
 	// Initialize a semaphore with a concurrency limit of 3.
 	sem := &Semaphore{Channel: make(chan struct{}, 3)}
+	var wg sync.WaitGroup
 
 	for i := 0; i < 10; i++ {
+		wg.Add(1)
 		go func(id int) {
+			defer wg.Done()
 			sem.Acquire()
 			defer sem.Release()
 
@@ -48,7 +52,7 @@ func main() {
 		}(i)
 	}
 
-	time.Sleep(4 * time.Second) // Ensure all goroutines complete
+	wg.Wait() // Wait for all goroutines to complete
 }
 ```
 

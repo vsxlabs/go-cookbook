@@ -1,11 +1,11 @@
 ---
 title: 'Go Assembly'
-description: 'Learn how to work with assembly code in Go using the asm package'
+description: 'Learn how to work with assembly code in Go by writing .s files and using the Go toolchain'
 date: '2025-03-24'
 category: 'Other topics'
 ---
 
-The Go programming language supports writing functions in assembly, which can be useful for performance-critical sections of code. Go assembly allows you to directly manipulate registers and perform low-level operations, which can yield significant performance improvements for specific algorithms.
+The Go programming language supports writing functions in assembly, which can be useful for performance-critical sections of code. Go assembly is written in `.s` files and compiled by the Go toolchain (`go tool asm`). It allows you to directly manipulate registers and perform low-level operations, which can yield significant performance improvements for specific algorithms.
 
 ## Writing a Simple Assembly Function
 

@@ -43,7 +43,11 @@ func encrypt(plaintext string, key []byte) (string, error) {
 }
 
 func decrypt(encryptedHex string, key []byte) (string, error) {
-	ciphertext, _ := hex.DecodeString(encryptedHex)
+	ciphertext, err := hex.DecodeString(encryptedHex)
+	if err != nil {
+		return "", fmt.Errorf("invalid hex string: %w", err)
+	}
+	
 	block, err := aes.NewCipher(key)
 	if err != nil {
 		return "", err
@@ -63,7 +67,9 @@ func decrypt(encryptedHex string, key []byte) (string, error) {
 }
 
 func main() {
-	key := []byte("examplekey123456") // 16 bytes key for AES-128
+	// WARNING: Hardcoded keys are insecure. In production, use securely generated keys
+	// from environment variables, configuration files, or a key management service (KMS).
+	key := []byte("examplekey123456") // 16 bytes key for AES-128.
 	plaintext := "Hello, Go Cookbook!"
 
 	encrypted, err := encrypt(plaintext, key)

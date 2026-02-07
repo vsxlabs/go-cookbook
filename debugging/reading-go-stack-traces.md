@@ -34,7 +34,7 @@ func causePanic() {
 }
 
 func PrintStackTrace() {
-	buf := make([]byte, 1024*1024*1024) // Allocate a big enough buffer.
+	buf := make([]byte, 1024*64) // 64KB buffer.
 	stackSize := runtime.Stack(buf, false)
 	log.Printf("%s\n", buf[:stackSize])
 }

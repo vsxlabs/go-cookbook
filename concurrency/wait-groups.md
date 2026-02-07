@@ -39,38 +39,6 @@ func main() {
 }
 ```
 
-### Go 1.25+ Usage with WaitGroup.Go
-
-Starting with Go 1.25, the new `Go` method added to `sync.WaitGroup` allows you to launch goroutines and manage the counter automatically:
-
-```go
-package main
-
-import (
-	"fmt"
-	"sync"
-)
-
-func worker(id int) {
-	fmt.Printf("Processing task %d\n", id)
-	// Simulate work.
-	fmt.Printf("Task %d completed\n", id)
-}
-
-func main() {
-	var wg sync.WaitGroup
-
-       for i := 0; i < 3; i++ {
-	       wg.Go(func() { worker(i) })
-       }
-
-	wg.Wait()
-	fmt.Println("All tasks completed")
-}
-```
-
-In this usage, the `worker` function no longer needs a `*sync.WaitGroup` parameter. The counter is managed automatically.
-
 In this example, a simple worker function is executed concurrently. The `sync.WaitGroup` is used to ensure that the `main` function waits for all worker goroutines to complete before exit.
 
 ## Practical Usage with Error Handling
@@ -120,51 +88,6 @@ func main() {
 	fmt.Println("All tasks completed")
 }
 ```
-
-### Go 1.25+ Usage with WaitGroup.Go and Error Handling
-
-With Go 1.25, the same example can be written more concisely as follows:
-
-```go
-package main
-
-import (
-	"fmt"
-	"sync"
-)
-
-const numWorkers = 5
-
-func worker(id int, errChan chan<- error) {
-	// Simulate a task.
-	if id%2 == 0 {
-		errChan <- fmt.Errorf("task %d encountered an error", id)
-		return
-	}
-	fmt.Printf("Task %d completed successfully\n", id)
-}
-
-func main() {
-	var wg sync.WaitGroup
-	errChan := make(chan error, numWorkers)
-
-       for i := 0; i < numWorkers; i++ {
-	       wg.Go(func() { worker(i, errChan) })
-       }
-
-	wg.Wait()
-	close(errChan)
-
-	for err := range errChan {
-		if err != nil {
-			fmt.Println("Error:", err)
-		}
-	}
-	fmt.Println("All tasks completed")
-}
-```
-
-In this example, the counter is also managed automatically, so there is no need to call `wg.Done()` or `wg.Add()`.
 
 ## Best Practices
 

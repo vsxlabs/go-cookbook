@@ -76,7 +76,7 @@ func main() {
 
 ## Context with Value
 
-You can pass request-scoped values using contexts:
+You can pass request-scoped values using contexts. Use a custom type for keys to avoid collisions:
 
 ```go
 package main
@@ -86,8 +86,13 @@ import (
 	"fmt"
 )
 
+// Define an unexported type for context keys to avoid collisions.
+type contextKey string
+
+const taskIDKey contextKey = "taskID"
+
 func worker(ctx context.Context) {
-	if taskID, ok := ctx.Value("taskID").(int); ok {
+	if taskID, ok := ctx.Value(taskIDKey).(int); ok {
 		fmt.Printf("Processing task: %d\n", taskID)
 	} else {
 		fmt.Println("No task ID found in context")
@@ -95,7 +100,7 @@ func worker(ctx context.Context) {
 }
 
 func main() {
-	ctx := context.WithValue(context.Background(), "taskID", 42)
+	ctx := context.WithValue(context.Background(), taskIDKey, 42)
 	worker(ctx)
 }
 ```

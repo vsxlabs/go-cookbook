@@ -1,11 +1,11 @@
 ---
-title: 'SSL and TLS in Go'
-description: 'Learn how to implement SSL and TLS in Go for secure network communications using the crypto/tls package'
+title: 'TLS in Go'
+description: 'Learn how to implement TLS in Go for secure network communications using the crypto/tls package'
 date: '2025-03-24'
 category: 'Networking'
 ---
 
-To secure network communications in Go, the language provides support for SSL (Secure Sockets Layer) and TLS (Transport Layer Security) via the `crypto/tls` package. This guide shows you how to handle SSL/TLS for secure channels.
+To secure network communications in Go, the language provides support for TLS (Transport Layer Security) via the `crypto/tls` package. Note: SSL is deprecated and should not be used; modern applications should use TLS 1.2 or higher. This guide shows you how to implement TLS for secure channels.
 
 ## Basic TLS Server
 

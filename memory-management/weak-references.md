@@ -121,20 +121,24 @@ func (c *WeakCache[K, V]) Size() int {
 func demonstrateWeakCache() {
 	cache := NewWeakCache[string, string]()
 	
-	// Add some values.
+	// Add some values using pointers.
 	val1 := "expensive computation result 1"
 	val2 := "expensive computation result 2"
 	val3 := "expensive computation result 3"
 	
-	cache.Set("key1", &val1)
-	cache.Set("key2", &val2)
-	cache.Set("key3", &val3)
+	ptr1 := &val1
+	ptr2 := &val2
+	ptr3 := &val3
+	
+	cache.Set("key1", ptr1)
+	cache.Set("key2", ptr2)
+	cache.Set("key3", ptr3)
 	
 	fmt.Printf("Cache size after adding: %d\n", cache.Size())
 	
-	// Clear some strong references.
-	val2 = ""
-	val3 = ""
+	// Clear some strong references by setting pointers to nil.
+	ptr2 = nil
+	ptr3 = nil
 	
 	// Force garbage collection.
 	runtime.GC()

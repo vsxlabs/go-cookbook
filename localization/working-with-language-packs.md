@@ -61,6 +61,7 @@ Here's an example of how you can use `go-i18n`:
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 

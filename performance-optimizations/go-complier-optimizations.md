@@ -9,13 +9,17 @@ The Go compiler brings several optimizations to enhance the performance of your 
 
 ## Compiler Flags for Optimization
 
-The Go compiler offers several flags that can be used for controlling optimizations during the build. You can use these flags to tailor your compilation process for better performance.
+The Go compiler offers several flags that can be used for controlling optimizations during the build. By default, the Go compiler applies optimizations. You can control specific behaviors:
 
 ```bash
-go build -gcflags="all=-l -B" -o optimizedApp main.go
+# Standard optimized build (default)
+go build -o optimizedApp main.go
+
+# Build with all optimizations (default behavior)
+go build -gcflags="all=-N -l" -o debugApp main.go  # Disables optimizations for debugging
 ```
 
-In this example, `-l` disables inlining, and `-B` forces bounds checking.
+Note: `-l` disables inlining and `-B` forces bounds checking, which reduce performance. These are typically used for debugging, not optimization.
 
 ## Inlining
 

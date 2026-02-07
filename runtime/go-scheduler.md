@@ -9,7 +9,7 @@ Go's scheduler is a key component that enables efficient execution and managemen
 
 ## Basics of Go Scheduler
 
-Go’s runtime uses an M:N scheduling model (M goroutines on N OS threads) GOMAXPROCS controlling the number of threads that run Go code in parallel.
+Go's runtime uses an M:N scheduling model where M goroutines are multiplexed onto N OS threads, with GOMAXPROCS controlling the maximum number of OS threads that can execute Go code simultaneously.
 
 ### Example: Setting GOMAXPROCS
 

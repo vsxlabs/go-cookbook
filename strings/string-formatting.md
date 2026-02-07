@@ -77,9 +77,9 @@ func main() {
 }
 ```
 
-## String Interpolation Using Go 1.20 `fmt.Printf` and `Sprintf`
+## String Formatting Using `fmt.Printf` and `Sprintf`
 
-With Go 1.20 and later releases, you can perform more concise string interpolation:
+You can perform string formatting and interpolation using standard fmt package functions:
 
 ```go
 package main

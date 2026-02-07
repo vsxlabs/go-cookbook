@@ -96,7 +96,7 @@ ls -lh microservice
 
 ## Best Practices
 
-- **Static Analysis and Dead Code Elimination**: Use `go tool compile` and `go tool link` to analyze and eliminate dead code. Regularly check your dependencies for unused packages.
+- **Static Analysis**: Use tools like `go tool nm`, `go tool objdump`, or `go list -deps` to examine your binaries and dependencies. Regularly audit for unused code and packages yourself.
 - **Modular Programming**: Break down applications into packages and only import what's necessary.
 - **Configuration Management**: Use `//go:build` directives for optional features/functions to minimize what's included in production builds.
 - **Dependency Auditing**: Regularly run `go mod tidy` and `go mod vendor` to clean up unused dependencies.
@@ -104,7 +104,7 @@ ls -lh microservice
 
 ## Common Pitfalls
 
-- **Ignoring Warning Messages**: Compiler warnings can flag potential issues with optimizations.
+- **Ignoring Build Errors and Vet Findings**: Build errors and `go vet` findings can flag potential issues with your code. Always address these before optimizing.
 - **Over-Optimization**: Aggressive size reductions might lead to performance issues or complicate debugging.
 - **Neglecting Go Modules and Dependency Management**: Use `go mod tidy` to remove unnecessary dependencies that contribute to size bloat.
 
@@ -132,8 +132,11 @@ go tool nm -size myapp | sort -rn | head -20
 # Get detailed build information
 go version -m myapp
 
-# See all dependencies and their sizes
+# List all module dependencies
 go list -m all
+
+# Analyze object file sizes from compiled packages
+go build -work -x myapp 2>&1 | grep packagefile
 ```
 
 By following these practices and techniques, you can efficiently optimize the size of your Go builds, leading to more streamlined and efficient applications.

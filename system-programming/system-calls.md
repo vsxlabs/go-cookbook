@@ -1,11 +1,11 @@
 ---
 title: 'System Calls in Go'
-description: 'Learn how to make system calls in Go using the syscall and os/exec packages'
+description: 'Learn how to make system calls in Go using golang.org/x/sys and os/exec packages'
 date: '2025-03-24'
 category: 'Tools'
 ---
 
-System calls allow a program to request a service from the kernel of the operating system. In Go, we often use the `syscall` package for low-level system calls, but for most cases, `os/exec` offers a more user-friendly and high-level interface to execute system binaries and commands.
+System calls allow a program to request a service from the kernel of the operating system. In Go, the `syscall` package is deprecated/frozen; use `golang.org/x/sys/...` for low-level system calls or higher-level `os` APIs. For most cases, `os/exec` offers a user-friendly and high-level interface to execute system binaries and commands.
 
 ## Using syscall for Low-Level System Calls
 
